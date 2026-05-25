@@ -2,18 +2,42 @@
 
 A full-stack todo application built with React, Express, MongoDB, and Node.js. Users can create tasks, update task text, mark tasks as complete, delete tasks, and see when each task was created.
 
-Live app: [https://haider-todo-app.vercel.app](https://haider-todo-app.vercel.app)
+## Live App
+
+https://haider-todo-app.vercel.app
 
 ## Features
 
 - Add new tasks.
 - View saved tasks from MongoDB.
-- Mark tasks as complete or pending.
+- Mark tasks as complete or pending by clicking the task status.
 - Edit existing tasks inline.
 - Delete tasks with confirmation.
 - Show relative created time for each task.
 - Run locally with Node.js or Docker Compose.
 - Deploy on Vercel with MongoDB Atlas.
+
+## Screenshots
+
+### Home
+
+![Todo app home page](assets/todo-app-home.png)
+
+### Create Task
+
+![Creating a todo task](assets/todo-app-create-task.png)
+
+### Edit Task
+
+![Editing a todo task](assets/todo-app-edit-task.png)
+
+### Completed Tasks
+
+![Completed tasks filter](assets/todo-app-completed-filter.png)
+
+### Delete Confirmation
+
+![Delete confirmation modal](assets/todo-app-delete-confirmation.png)
 
 ## Tech Stack
 
@@ -169,29 +193,11 @@ vercel --prod
 | `PUT` | `/api/update/:id` | Update todo text |
 | `DELETE` | `/api/delete/:id` | Delete a todo |
 
-Create todo:
+Create todo body: `task` = `Finish deployment`
 
-```json
-{
-  "task": "Finish deployment"
-}
-```
+Update todo text body: `task` = `Update README`
 
-Update todo text:
-
-```json
-{
-  "task": "Update README"
-}
-```
-
-Update completion:
-
-```json
-{
-  "done": true
-}
-```
+Update completion body: `done` = `true`
 
 ## Scripts
 
