@@ -1,8 +1,22 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+beforeEach(() => {
+  jest.spyOn(global, 'fetch').mockResolvedValue({
+    ok: true,
+    json: async () => [],
+  });
+});
+
+afterEach(() => {
+  jest.restoreAllMocks();
+});
+
+test('renders todo app title', async () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const title = await screen.findByRole('heading', { name: /todo list/i });
+  const emptyState = await screen.findByText(/no tasks yet/i);
+
+  expect(title).toBeInTheDocument();
+  expect(emptyState).toBeInTheDocument();
 });

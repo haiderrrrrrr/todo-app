@@ -1,20 +1,26 @@
 {
   "name": "todo_backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Express API for the MERN todo application",
+  "main": "server.js",
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "test": "node --test"
   },
   "keywords": [],
   "author": "atharva",
   "license": "ISC",
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
-    "express": "^4.19.2",
-    "mongoose": "^8.4.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.6.2"
+  },
+  "devDependencies": {
     "nodemon": "^3.1.4"
   }
 }

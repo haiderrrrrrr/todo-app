@@ -1,31 +1,222 @@
-# Fullstack MERN Todo Application
+# Todo App
 
-A modern, responsive task management application built from the ground up using the MERN stack. This project showcases REST API design, state management in React, and containerized deployment strategies.
+A full-stack todo application built with React, Express, MongoDB, and Node.js. Users can create tasks, update task text, mark tasks as complete, delete tasks, and see when each task was created.
 
-## Key Features
+Live app: [https://haider-todo-app.vercel.app](https://haider-todo-app.vercel.app)
 
-* **RESTful API**: Node.js and Express backend handling CRUD operations for tasks securely.
-* **Dynamic Frontend**: React-based user interface with real-time state updates and clean component architecture.
-* **Persistent Storage**: MongoDB integration using Mongoose schemas for flexible and rapid data retrieval.
-* **Containerization**: Fully Dockerized environments using docker-compose to instantly spin up the database, backend, and frontend concurrently.
+## Features
 
-## Technology Stack
+- Add new tasks.
+- View saved tasks from MongoDB.
+- Mark tasks as complete or pending.
+- Edit existing tasks inline.
+- Delete tasks with confirmation.
+- Show relative created time for each task.
+- Run locally with Node.js or Docker Compose.
+- Deploy on Vercel with MongoDB Atlas.
 
-* **Frontend**: React.js
-* **Backend**: Node.js, Express
-* **Database**: MongoDB
-* **Deployment**: Docker, Docker Compose
+## Tech Stack
 
-## Execution
+| Part | Tech |
+| --- | --- |
+| Frontend | React, React Icons, Day.js |
+| Backend | Node.js, Express |
+| Database | MongoDB, Mongoose |
+| Local containers | Docker, Docker Compose |
+| Deployment | Vercel, MongoDB Atlas |
 
-Ensure Docker is installed and running on your system.
+## Project Structure
 
-1. Navigate to the project root.
-2. Build and start the containers:
-   `
-   docker-compose up --build
-   `
-3. The frontend will be accessible on your local port, cleanly proxying requests to the backend API!
+```text
+.
+|-- api/                 # Vercel API entrypoint
+|-- backend/             # Express server and todo model
+|-- frontend/            # React app
+|-- docker-compose.yml   # Local Docker setup
+|-- vercel.json          # Vercel build and routing config
+|-- .env.example         # Example environment variables
+`-- README.md
+```
 
----
-*Developed by: Haider Ali*
+## Environment Variables
+
+Create a `.env` file in the project root.
+
+```env
+MONGO_URI=mongodb+srv://<username>:<password>@<cluster-url>/todo?retryWrites=true&w=majority
+BACKEND_PORT=5000
+FRONTEND_PORT=3000
+CLIENT_ORIGIN=http://localhost:3000
+```
+
+For Docker with the local MongoDB service, use:
+
+```env
+MONGO_URI=mongodb://db:27017/todo
+BACKEND_PORT=5000
+FRONTEND_PORT=3000
+CLIENT_ORIGIN=http://localhost:3000
+```
+
+## Run Locally
+
+Install backend dependencies:
+
+```bash
+cd backend
+npm install
+```
+
+Install frontend dependencies:
+
+```bash
+cd frontend
+npm install
+```
+
+Start the backend:
+
+```bash
+cd backend
+npm run dev
+```
+
+Start the frontend in another terminal:
+
+```bash
+cd frontend
+npm start
+```
+
+Open:
+
+```text
+http://localhost:3000
+```
+
+## Run With Docker
+
+Create `.env` from `.env.example`, then use the local MongoDB URI:
+
+```env
+MONGO_URI=mongodb://db:27017/todo
+```
+
+Start the app:
+
+```bash
+docker compose up --build
+```
+
+Open:
+
+```text
+http://localhost:3000
+```
+
+Stop the app:
+
+```bash
+docker compose down
+```
+
+## MongoDB Atlas
+
+For the deployed app, use MongoDB Atlas.
+
+1. Create an Atlas cluster.
+2. Create a database user.
+3. Add network access for Vercel.
+4. Copy the Node.js connection string from **Connect > Drivers**.
+5. Add the database name `todo` after `.net/`.
+
+Example:
+
+```text
+mongodb+srv://<username>:<password>@<cluster-url>/todo?retryWrites=true&w=majority
+```
+
+Use this value as `MONGO_URI` in Vercel.
+
+## Vercel Deployment
+
+This project uses `vercel.json` to:
+
+- build the React app from `frontend/`
+- serve the build output from `frontend/build`
+- route `/api/*` requests to `api/index.js`
+
+Add this environment variable in Vercel:
+
+```text
+MONGO_URI
+```
+
+Deploy:
+
+```bash
+vercel --prod
+```
+
+## API Routes
+
+| Method | Route | Description |
+| --- | --- | --- |
+| `GET` | `/api/health` | Check API status |
+| `GET` | `/api/get` | Get all todos |
+| `POST` | `/api/add` | Create a todo |
+| `PUT` | `/api/edit/:id` | Update todo completion |
+| `PUT` | `/api/update/:id` | Update todo text |
+| `DELETE` | `/api/delete/:id` | Delete a todo |
+
+Create todo:
+
+```json
+{
+  "task": "Finish deployment"
+}
+```
+
+Update todo text:
+
+```json
+{
+  "task": "Update README"
+}
+```
+
+Update completion:
+
+```json
+{
+  "done": true
+}
+```
+
+## Scripts
+
+Run all tests:
+
+```bash
+npm test
+```
+
+Build for Vercel:
+
+```bash
+npm run vercel-build
+```
+
+Backend development:
+
+```bash
+cd backend
+npm run dev
+```
+
+Frontend development:
+
+```bash
+cd frontend
+npm start
+```

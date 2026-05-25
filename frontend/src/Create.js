@@ -1,35 +1,50 @@
 import React, { useState } from 'react';
 import './App.css';
-import axios from 'axios';
 
-const Create = () => {
-    const [task, setTask] = useState('');
+const Create = ({ onTodoCreated, onError }) => {
+  const [task, setTask]             = useState('');
+  const [isSubmitting, setSubmitting] = useState(false);
 
-    const createTask = () => {
-        axios.post('http://localhost:5000/add', { task: task.trim() })
-            .then(result => {
-                console.log(result.data);
-                window.location.reload();
-                setTask('');
-            })
-            .catch(err => console.log(err));
-    };
+  const createTask = async e => {
+    e.preventDefault();
+    const trimmed = task.trim();
+    if (!trimmed) return;
 
-    return (
-        <main>
-            <h1>Todo List</h1>
-            <div className='create-form'>
-                <input
-                    type='text'
-                    placeholder='Enter a task'
-                    value={task}
-                    onChange={(e) => setTask(e.target.value)}
-                    required
-                />
-                <button onClick={createTask}>ADD</button>
-            </div>
-        </main>
-    );
+    setSubmitting(true);
+    try {
+      const res = await fetch('/api/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ task: trimmed }),
+      });
+      if (!res.ok) throw new Error();
+      onTodoCreated(await res.json());
+      setTask('');
+    } catch {
+      onError('Could not create the task. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <section className="todo-header">
+      <h1>Todo List</h1>
+      <p className="todo-subtitle">Stay organised. Get things done.</p>
+      <form className="create-form" onSubmit={createTask}>
+        <input
+          type="text"
+          placeholder="What needs to be done?"
+          value={task}
+          onChange={e => setTask(e.target.value)}
+          required
+        />
+        <button type="submit" disabled={isSubmitting || !task.trim()}>
+          {isSubmitting ? 'Adding…' : '+ Add'}
+        </button>
+      </form>
+    </section>
+  );
 };
 
 export default Create;

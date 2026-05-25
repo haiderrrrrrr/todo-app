@@ -3,6 +3,11 @@ logs
 *.log
 npm-debug.log*
 
+# Environment files
+.env
+.env.*
+!.env.example
+
 # Runtime data
 pids
 *.pid
@@ -37,5 +42,8 @@ jspm_packages
 .node_repl_history
 .DS_Store
 
-#Excluding build directory
-public/
+# Build output
+build/
+dist/
+
+.vercel
